@@ -276,7 +276,7 @@ function miniMax(state, player) {
     moves.push(square);
     state[square] = 0;
   });
-
+  
   if (player === 'aiPlayer') {
     AIMove = moves[scores.indexOf(Math.max.apply(Math, scores))];
     return Math.max.apply(Math, scores);

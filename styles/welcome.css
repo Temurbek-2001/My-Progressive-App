@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;800;900&display=swap);
+/* @import url(https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;800;900&display=swap);
 
 html{
     font-size: 10px;
@@ -45,4 +45,84 @@ body {
     cursor: pointer;
 }
  
+ */
 
+
+
+ @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;800;900&display=swap');
+
+html {
+    font-size: 10px;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #EEF2F5; /* Och kulrang fon */
+    color: #2D3142; /* To‘q kulrang matn */
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.welcome > div {
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 6rem;
+}
+
+.welcome > div h1 {
+    font-size: 6rem;
+    font-weight: 900;
+    color: #4C9F70; /* Primary Color */
+    text-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.nav-btns {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5rem;
+}
+
+.nav-btns a {
+    text-decoration: none;
+}
+
+.nav-btns button {
+    width: 18rem;
+    height: 10rem;
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: #EEF2F5; /* Light background text */
+    background-color: #4C9F70; /* Primary Color */
+    border: none;
+    border-radius: 1rem;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.nav-btns button:hover {
+    background-color: #FFC857; /* Accent Color */
+    transform: translateY(-5px);
+}
+
+.nav-btns button:active {
+    transform: translateY(0);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}

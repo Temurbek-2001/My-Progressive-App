@@ -149,3 +149,11 @@ h3 {
     width: 90%;
   }
 }
+
+.back-btn{
+  width: 70px;
+  height: 35px;
+  border: none;
+  color: #ffff;
+  background-color: #4c9f70;
+}
