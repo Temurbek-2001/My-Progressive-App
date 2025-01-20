@@ -293,3 +293,144 @@ document.addEventListener('DOMContentLoaded', () => {
     chooseMarker();
   }
 });
+
+
+// View Management
+function showView(viewId) {
+  document.querySelectorAll('.view').forEach(view => view.style.display = 'none');
+  document.getElementById(viewId).style.display = 'block';
+
+  // Save current view to localStorage
+  localStorage.setItem('currentView', viewId);
+}
+
+// Camera functionality
+let stream = null;
+const cameraModal = document.getElementById('cameraModal');
+const video = document.getElementById('camera');
+const canvas = document.getElementById('photoCanvas');
+const captureBtn = document.getElementById('captureBtn');
+const closeCameraBtn = document.getElementById('closeCameraBtn');
+
+document.getElementById('takePhotoBtn').addEventListener('click', async () => {
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    video.srcObject = stream;
+    cameraModal.style.display = 'block';
+  } catch (err) {
+    console.error('Camera access error:', err);
+    alert('Unable to access camera');
+  }
+});
+
+captureBtn.addEventListener('click', () => {
+  const context = canvas.getContext('2d');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  context.drawImage(video, 0, 0);
+
+  // Convert to base64 and save to localStorage
+  const photoData = canvas.toDataURL('image/png');
+  localStorage.setItem('profilePhoto', photoData);
+  document.getElementById('profileImage').src = photoData;
+
+  closeCamera();
+});
+
+closeCameraBtn.addEventListener('click', closeCamera);
+
+function closeCamera() {
+  if (stream) {
+    stream.getTracks().forEach(track => track.stop());
+  }
+  cameraModal.style.display = 'none';
+}
+
+// Geolocation for matchmaking (feature demonstration)
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+        position => {
+          localStorage.setItem('playerLocation', JSON.stringify({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          }));
+        },
+        error => console.log('Geolocation error:', error)
+    );
+  }
+}
+
+// Profile Management
+function saveProfile() {
+  const playerName = document.getElementById('playerName').value;
+  localStorage.setItem('playerName', playerName);
+  updateStats(); // Update statistics display
+}
+
+// Statistics Management
+function updateStats() {
+  const stats = JSON.parse(localStorage.getItem('gameStats')) || {
+    gamesPlayed: 0,
+    wins: 0
+  };
+
+  document.getElementById('gamesPlayed').textContent = stats.gamesPlayed;
+  document.getElementById('playerWins').textContent = stats.wins;
+  document.getElementById('winRate').textContent =
+      stats.gamesPlayed ? ((stats.wins / stats.gamesPlayed) * 100).toFixed(1) + '%' : '0%';
+}
+
+function updateGameStats(result) {
+  const stats = JSON.parse(localStorage.getItem('gameStats')) || {
+    gamesPlayed: 0,
+    wins: 0
+  };
+
+  stats.gamesPlayed++;
+  if (result === 'win') {
+    stats.wins++;
+  }
+
+  localStorage.setItem('gameStats', JSON.stringify(stats));
+  updateStats();
+}
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', () => {
+  // Load saved view
+  const savedView = localStorage.getItem('currentView') || 'homeView';
+  showView(savedView);
+
+  // Load profile photo if exists
+  const savedPhoto = localStorage.getItem('profilePhoto');
+  if (savedPhoto) {
+    document.getElementById('profileImage').src = savedPhoto;
+  }
+
+  // Load player name if exists
+  const savedName = localStorage.getItem('playerName');
+  if (savedName) {
+    document.getElementById('playerName').value = savedName;
+  }
+
+  // Update statistics
+  updateStats();
+
+  // Get location for matchmaking feature
+  getLocation();
+
+  // Load game state
+  loadGameState();
+  if (savedView === 'gameView' && liveBoard.every(cell => cell === 0)) {
+    chooseMarker();
+  }
+});
+
+// Update existing endGameMessage function
+const originalEndGameMessage = endGameMessage;
+endGameMessage = function() {
+  const result = checkVictory(liveBoard);
+  updateGameStats(result);
+  originalEndGameMessage();
+};
