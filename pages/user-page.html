@@ -3,9 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Page</title>
+    <title>User Profile</title>
+    <link rel="stylesheet" href="../styles/user.css">
 </head>
 <body>
-    
+    <div class="container">
+        <div class="profile-card">
+            <div class="avatar-section">
+                <div class="avatar-container">
+                    <img id="avatar" class="avatar" src="../imges/user-png.png" alt="Profile">
+                    <button class="camera-button" onclick="activateCamera()">📷</button>
+                </div>
+                <div class="user-info">
+                    <div id="display-mode">
+                        <h1 id="name-display" class="user-name">Alexa</h1>
+                        <p id="email-display" class="user-email">Rawles</p>
+                        <div class="action-buttons">
+                            <button class="button primary-button" onclick="toggleEdit()">Edit Profile</button>
+                            <button class="button secondary-button" onclick="getLocation()">📍 Location</button>
+                        </div>
+                    </div>
+                    <div id="edit-mode" style="display: none;">
+                        <input type="text" id="name-input" class="input-field" placeholder="Name">
+                        <input type="email" id="email-input" class="input-field" placeholder="Lastname">
+                        <div class="action-buttons">
+                            <button class="button primary-button" onclick="saveProfile()">Save</button>
+                            <button class="button secondary-button" onclick="toggleEdit()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="location-display" style="font-size: 14px; color: #666; margin-top: 8px;"></div>
+        </div>
+
+        <div class="stats-card">
+            <h2 class="stats-title">Game Statistics</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div id="wins" class="stat-number">0</div>
+                    <div class="stat-label">Wins</div>
+                </div>
+                <div class="stat-item">
+                    <div id="losses" class="stat-number">0</div>
+                    <div class="stat-label">Losses</div>
+                </div>
+                <div class="stat-item">
+                    <div id="draws" class="stat-number">0</div>
+                    <div class="stat-label">Draws</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="alert" class="alert"></div>
+
+    <script src="../scripts/user.js"></script>
 </body>
 </html>
